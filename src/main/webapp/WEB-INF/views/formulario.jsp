@@ -1,16 +1,39 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: SOLEDAD
-  Date: 11/05/2026
-  Time: 4:40 p. m.
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<!DOCTYPE html><html lang="es"><head>
+<meta charset="UTF-8">
+<title>${empty producto ? "Nuevo Producto" : "Editar Producto"}</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/estilos.css">
+</head><body>
+<div class="container">
+<h1>${empty producto ? "Registrar Producto" : "Editar Producto"}</h1>
+<form method="post" action="<c:url value="/productos"/>">
+    <c:if test="${not empty producto}">
+        <input type="hidden" name="id" value="${producto.id}">
+        <input type="hidden" name="accion" value="actualizar">
+    </c:if>
+    <c:if test="${empty producto}">
+        <input type="hidden" name="accion" value="guardar">
+    </c:if>
+    <label>Nombre:
+        <input type="text" name="nombre" required
+               value="<c:out value="${producto.nombre}"/>">
+    </label>
+    <label>Categoría:
+        <input type="text" name="categoria"
+               value="<c:out value="${producto.categoria}"/>">
+    </label>
+    <label>Precio:
+        <input type="number" name="precio" step="0.01" min="0" required
+               value="${producto.precio}">
+    </label>
+    <label>Stock:
+        <input type="number" name="stock" min="0" required
+               value="${producto.stock}">
+    </label>
+    <button type="submit">${empty producto ? "Guardar" :
+            "Actualizar"}</button>
+    <a class="btn" href="<c:url value="/productos"/>">Cancelar</a>
+</form>
+</div>
+</body></html>
